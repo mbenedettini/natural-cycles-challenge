@@ -3,9 +3,11 @@ version: '3'
 services:
   server:
     build: .
-    user: "1000:1000"
+    user: '1000:1000'
     env_file:
       - .env
     command: npm start
     volumes:
       - .:/usr/src/app
+    ports:
+      - '3000:3000'

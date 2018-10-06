@@ -10,8 +10,13 @@
   "author": "Mariano Benedettini",
   "license": "ISC",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.1",
+    "@types/errorhandler": "0.0.32",
+    "@types/http-errors": "^1.6.1",
+    "@types/morgan": "^1.7.35",
     "@types/node": "^10.11.4",
     "husky": "^1.1.1",
+    "errorhandler": "^1.5.0",
     "nodemon": "^1.18.4",
     "prettier": "1.14.3",
     "pretty-quick": "^1.7.0",
@@ -22,5 +27,13 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0"
   }
 }
