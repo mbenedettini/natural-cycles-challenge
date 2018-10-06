@@ -6,7 +6,6 @@ import logger from 'morgan'
 import 'reflect-metadata'
 
 import { index as indexRouter } from './routes/index'
-import { users as usersRouter } from './routes/users'
 
 const app = express()
 
@@ -21,7 +20,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req: any, res: any, next: any) {
