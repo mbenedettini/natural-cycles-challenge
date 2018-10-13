@@ -6,7 +6,7 @@ import logger from 'morgan'
 import 'reflect-metadata'
 const cors = require('cors')
 
-import { index as indexRouter } from './routes/index'
+import { users as usersRouter } from './routes/users'
 
 const app = express()
 
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/users', indexRouter)
+app.use('/users', usersRouter)
 app.all('/*', function(req, res, next) {
   // Just send the index.html for other files to support HTML5Mode
   res.sendFile('public/index.html', { root: __dirname })

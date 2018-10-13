@@ -124,4 +124,4 @@ router.delete('/:id', async (req: any, res: any, next: any) => {
   return res.json({})
 })
 
-export { router as index }
+export { router as users }
