@@ -4,10 +4,15 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import 'reflect-metadata'
+const cors = require('cors')
 
 import { index as indexRouter } from './routes/index'
 
 const app = express()
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(cors())
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
