@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 Edit user #{user.id}
+  h3
+    a(href="/") Index
+
+  if error
+    h3 Error: #{error}
+
+  if message
+    h3 Message: #{message}
+
+  form(method="post", action=user.id)
+    p
+      input(name="email", value=user.email)
+    p
+      input(type="submit")
