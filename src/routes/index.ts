@@ -19,17 +19,12 @@ function isValidUUID(value: string): boolean {
 router.get('/', async function(req: any, res: any, next: any) {
   const repo = getManager().getRepository(User)
   const users = await repo.find()
-  res.render('index', {
-    users: users,
-    message: req.query.message,
+  res.json({
+    data: users,
   })
 })
 
-router.get('/new', async function(req: any, res: any, next: any) {
-  res.render('new')
-})
-
-router.post('/new', async function(req: any, res: any, next: any) {
+router.post('/', async function(req: any, res: any, next: any) {
   const repo = getManager().getRepository(User)
   const email = req.body.email
   const matches = email.match(EMAIL_REGEXP)
@@ -38,11 +33,14 @@ router.post('/new', async function(req: any, res: any, next: any) {
     let user = new User()
     user.email = email
     await repo.save(user)
-    res.redirect(`/${user.id}`)
+    return res.json({
+      data: user,
+    })
   } else {
     log.warn('Not a valid email address: ', email)
-    res.render('new', {
-      error: 'Email address not valid',
+    res.status(400)
+    return res.json({
+      error: 'Invalid email address',
     })
   }
 })
@@ -57,17 +55,17 @@ router.get('/:id', async (req: any, res: any, next: any) => {
   const repo = getManager().getRepository(User)
   const user = await repo.findOne(req.params.id)
   if (!user) {
-    return res.render('edit', {
-      user: {},
+    res.status(404)
+    return res.json({
       error: 'User not found',
     })
   }
-  res.render('edit', {
-    user: user,
+  return res.json({
+    data: user,
   })
 })
 
-router.post('/:id', async (req: any, res: any, next: any) => {
+router.put('/:id', async (req: any, res: any, next: any) => {
   if (!isValidUUID(req.params.id)) {
     return res.render('edit', {
       user: {},
@@ -77,30 +75,37 @@ router.post('/:id', async (req: any, res: any, next: any) => {
   const repo = getManager().getRepository(User)
   let user = await repo.findOne(req.params.id)
   if (!user) {
-    return res.render('edit', {
-      user: {},
+    res.status(404)
+    return res.json({
       error: 'User not found',
     })
   }
   const email = req.body.email
+  const matches = email.match(EMAIL_REGEXP)
+  if (!matches) {
+    res.status(400)
+    return res.json({
+      error: 'Invalid email address',
+    })
+  }
   user.email = email
   try {
     log.debug('Updating user...')
     await repo.save(user)
   } catch (e) {
     log.error(e)
-    return res.render('edit', {
-      user: user,
+    res.status
+    res.status(500)
+    return res.json({
       error: 'Some error has happened',
     })
   }
-  res.render('edit', {
-    user: user,
-    message: 'User successfully saved',
+  res.json({
+    data: user,
   })
 })
 
-router.post('/delete/:id', async (req: any, res: any, next: any) => {
+router.delete('/:id', async (req: any, res: any, next: any) => {
   if (!isValidUUID(req.params.id)) {
     return res.render('edit', {
       user: {},
@@ -110,14 +115,13 @@ router.post('/delete/:id', async (req: any, res: any, next: any) => {
   const repo = getManager().getRepository(User)
   let user = await repo.findOne(req.params.id)
   if (!user) {
-    return res.render('edit', {
-      user: {},
+    res.status(404)
+    return res.json({
       error: 'User not found',
     })
   }
   await repo.remove(user)
-  const message = encodeURIComponent('User successfully deleted')
-  res.redirect(`/?message=${message}`)
+  return res.json({})
 })
 
 export { router as index }
