@@ -37,7 +37,7 @@ router.post('/new', async function(req: any, res: any, next: any) {
     let user = new User()
     user.email = email
     await repo.save(user)
-    res.render(`/${user.id}`)
+    res.redirect(`/${user.id}`)
   } else {
     log.warn('Not a valid email address: ', email)
     res.render('new', {
