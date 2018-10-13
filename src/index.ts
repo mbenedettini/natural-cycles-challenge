@@ -1,4 +1,3 @@
-console.log('Hello world')
 import errorHandler from 'errorhandler'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
