@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Create new user
+
+  if error
+    h3 Error: #{error}
+
+  form(method="post")
+    p
+      input(name="email")
+    p
+      input(type="submit")
