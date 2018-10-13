@@ -34,9 +34,9 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
-    "jade": "~1.11.0",
     "morgan": "~1.9.0",
     "pg": "^7.5.0",
+    "pug": "^2.0.3",
     "reflect-metadata": "^0.1.12",
     "typeorm": "^0.2.7"
   }
