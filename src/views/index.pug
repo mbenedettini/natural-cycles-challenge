@@ -2,7 +2,9 @@ extends layout
 
 block content
   h1 Users index
-  p Part of NC Challenge
+
+  if message
+    h3 Message: #{message}
 
   ul
     each user in users

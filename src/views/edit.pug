@@ -5,6 +5,13 @@ block content
   h3
     a(href="/") Index
 
+  form(method="post", action="/delete/" + user.id)
+    input(
+      type="submit",
+      onclick="return confirm('Are you sure?')",
+      value="Delete user"
+    )
+
   if error
     h3 Error: #{error}
 
@@ -15,4 +22,4 @@ block content
     p
       input(name="email", value=user.email)
     p
-      input(type="submit")
+      input(type="submit", value="Save")

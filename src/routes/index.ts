@@ -21,6 +21,7 @@ router.get('/', async function(req: any, res: any, next: any) {
   const users = await repo.find()
   res.render('index', {
     users: users,
+    message: req.query.message,
   })
 })
 
@@ -97,6 +98,26 @@ router.post('/:id', async (req: any, res: any, next: any) => {
     user: user,
     message: 'User successfully saved',
   })
+})
+
+router.post('/delete/:id', async (req: any, res: any, next: any) => {
+  if (!isValidUUID(req.params.id)) {
+    return res.render('edit', {
+      user: {},
+      error: 'Invalid user id',
+    })
+  }
+  const repo = getManager().getRepository(User)
+  let user = await repo.findOne(req.params.id)
+  if (!user) {
+    return res.render('edit', {
+      user: {},
+      error: 'User not found',
+    })
+  }
+  await repo.remove(user)
+  const message = encodeURIComponent('User successfully deleted')
+  res.redirect(`/?message=${message}`)
 })
 
 export { router as index }
