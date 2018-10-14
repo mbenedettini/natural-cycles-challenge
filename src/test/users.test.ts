@@ -64,6 +64,22 @@ test('Create user', async () => {
   const userData = userResponse.data
   expect(userData.email).toBe('example@example.com')
   expect(isValidUUID(userData.id)).toBe(true)
+
+  error = null
+  try {
+    await request({
+      method: 'POST',
+      uri: getBaseURL() + '/users',
+      json: true,
+      body: {
+        email: 'example@example.com',
+      },
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(400)
+  expect(error.error.error).toBe('Email already exists')
 })
 
 test('Retrieve user', async () => {
@@ -119,6 +135,7 @@ test('Update user', async () => {
   expect(error.statusCode).toBe(400)
   expect(error.error.error).toBe('Invalid email address')
 
+  error = null
   try {
     await request({
       method: 'PUT',
@@ -133,6 +150,25 @@ test('Update user', async () => {
   }
   expect(error.statusCode).toBe(404)
   expect(error.error.error).toBe('User not found')
+
+  /* Create another user with test@test.com and try to change email of the
+     first one to the same address*/
+  const anotherUser = await loadUser()
+  error = null
+  try {
+    await request({
+      method: 'PUT',
+      uri: getBaseURL() + '/users/' + user.id,
+      json: true,
+      body: {
+        email: 'test@test.com',
+      },
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(400)
+  expect(error.error.error).toBe('Email already exists')
 })
 
 test('Delete user', async () => {
