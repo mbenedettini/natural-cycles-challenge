@@ -10,12 +10,6 @@ const EMAIL_REGEXP = new RegExp(
   /(([a-zA-Z][^<>()\[\]\\.\/,;:\s@"=]+(\.[^<>()\[\]\\.\/,;:\s@="]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/,
 )
 
-function isValidUUID(value: string): boolean {
-  return !!value.match(
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
-  )
-}
-
 router.get('/', async function(req: any, res: any, next: any) {
   const repo = getManager().getRepository(User)
   const users = await repo.find()
@@ -46,12 +40,6 @@ router.post('/', async function(req: any, res: any, next: any) {
 })
 
 router.get('/:id', async (req: any, res: any, next: any) => {
-  if (!isValidUUID(req.params.id)) {
-    return res.render('edit', {
-      user: {},
-      error: 'Invalid user id',
-    })
-  }
   const repo = getManager().getRepository(User)
   const user = await repo.findOne(req.params.id)
   if (!user) {
@@ -66,12 +54,6 @@ router.get('/:id', async (req: any, res: any, next: any) => {
 })
 
 router.put('/:id', async (req: any, res: any, next: any) => {
-  if (!isValidUUID(req.params.id)) {
-    return res.render('edit', {
-      user: {},
-      error: 'Invalid user id',
-    })
-  }
   const repo = getManager().getRepository(User)
   let user = await repo.findOne(req.params.id)
   if (!user) {
@@ -105,12 +87,6 @@ router.put('/:id', async (req: any, res: any, next: any) => {
 })
 
 router.delete('/:id', async (req: any, res: any, next: any) => {
-  if (!isValidUUID(req.params.id)) {
-    return res.render('edit', {
-      user: {},
-      error: 'Invalid user id',
-    })
-  }
   const repo = getManager().getRepository(User)
   let user = await repo.findOne(req.params.id)
   if (!user) {
