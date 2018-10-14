@@ -3,4 +3,6 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/test/*.test.ts'],
   rootDir: '/usr/src/app/src',
+  collectCoverage: true,
+  collectCoverageFrom: ['routes/users.ts'],
 }
