@@ -12,7 +12,9 @@ createConnection().then(async connection => {
   /**
    * Error Handler. Provides full stack - remove for production
    */
-  app.use(errorHandler())
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(errorHandler())
+  }
   const port = app.get('port') || DEFAULT_PORT
 
   const server = app.listen(port, () => {
