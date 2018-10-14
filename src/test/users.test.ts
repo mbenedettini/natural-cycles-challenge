@@ -90,3 +90,49 @@ test('Retrieve user', async () => {
   expect(error.statusCode).toBe(404)
   expect(error.error.error).toBe('User not found')
 })
+
+test('Update user', async () => {
+  const user = await loadUser()
+  const res = await request({
+    method: 'PUT',
+    uri: getBaseURL() + '/users/' + user.id,
+    json: true,
+    body: {
+      email: 'yadayada@example.com',
+    },
+  })
+  const userData = res.data
+  expect(userData.email).toBe('yadayada@example.com')
+  expect(userData.id).toBe(user.id)
+
+  let error
+  try {
+    await request({
+      method: 'PUT',
+      uri: getBaseURL() + '/users/' + user.id,
+      json: true,
+      body: {
+        email: 'invalid@email',
+      },
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(400)
+  expect(error.error.error).toBe('Invalid email address')
+
+  try {
+    await request({
+      method: 'PUT',
+      uri: getBaseURL() + '/users/' + uuid(),
+      json: true,
+      body: {
+        email: 'example@email.com',
+      },
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(404)
+  expect(error.error.error).toBe('User not found')
+})
