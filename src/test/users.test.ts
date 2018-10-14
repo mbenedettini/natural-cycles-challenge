@@ -2,7 +2,7 @@ const request = require('request-promise')
 
 import log from '../logger'
 import { loadUser } from './fixtures'
-import { setupTests, getBaseURL } from './utils'
+import { setupTests, getBaseURL, isValidUUID } from './utils'
 setupTests()
 
 test('Placeholder', () => {
@@ -34,4 +34,35 @@ test('List users', async () => {
       },
     ],
   })
+})
+
+test('Create user', async () => {
+  let error
+  try {
+    await request({
+      method: 'POST',
+      uri: getBaseURL() + '/users',
+      json: true,
+      body: {
+        email: 'not@valid',
+      },
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(400)
+  expect(error.error.error).toBe('Invalid email address')
+
+  const userResponse = await request({
+    method: 'POST',
+    uri: getBaseURL() + '/users',
+    json: true,
+    body: {
+      email: 'example@example.com',
+    },
+  })
+
+  const userData = userResponse.data
+  expect(userData.email).toBe('example@example.com')
+  expect(isValidUUID(userData.id)).toBe(true)
 })
