@@ -1,6 +1,8 @@
 const request = require('request-promise')
 const uuid = require('uuid/v4')
+import { getManager } from 'typeorm'
 
+import { User } from '../entity/User'
 import log from '../logger'
 import { loadUser } from './fixtures'
 import { setupTests, getBaseURL, isValidUUID } from './utils'
@@ -135,4 +137,31 @@ test('Update user', async () => {
   }
   expect(error.statusCode).toBe(404)
   expect(error.error.error).toBe('User not found')
+})
+
+test('Delete user', async () => {
+  const user = await loadUser()
+
+  let error
+  try {
+    await request({
+      method: 'DELETE',
+      uri: getBaseURL() + '/users/' + uuid(),
+      json: true,
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(404)
+  expect(error.error.error).toBe('User not found')
+
+  const res = await request({
+    method: 'DELETE',
+    uri: getBaseURL() + '/users/' + user.id,
+    json: true,
+  })
+
+  const repo = getManager().getRepository(User)
+  const foundUser = await repo.findOne(user.id)
+  expect(foundUser).toBeFalsy()
 })
