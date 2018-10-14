@@ -4,10 +4,15 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import 'reflect-metadata'
+const cors = require('cors')
 
-import { index as indexRouter } from './routes/index'
+import { users as usersRouter } from './routes/users'
 
 const app = express()
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(cors())
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -19,7 +24,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
+app.use('/users', usersRouter)
+app.all('/*', function(req, res, next) {
+  // Just send the index.html for other files to support HTML5Mode
+  res.sendFile('public/index.html', { root: __dirname })
+})
 
 // catch 404 and forward to error handler
 app.use(function(req: any, res: any, next: any) {
