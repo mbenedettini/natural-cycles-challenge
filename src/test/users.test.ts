@@ -8,10 +8,6 @@ import { loadUser } from './fixtures'
 import { setupTests, getBaseURL, isValidUUID } from './utils'
 setupTests()
 
-test('Placeholder', () => {
-  expect(1).toBe(1)
-})
-
 test('List users', async () => {
   const data = await request({
     uri: getBaseURL() + '/users',
