@@ -94,7 +94,6 @@ router.put('/:id', async (req: any, res: any, next: any) => {
     await repo.save(user)
   } catch (e) {
     log.error(e)
-    res.status
     res.status(500)
     return res.json({
       error: 'Some error has happened',
