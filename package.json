@@ -4,7 +4,7 @@
   "description": "Natural Cycles Challenge",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node_modules/.bin/jest",
     "start": "npm run migration:run && nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "migration:run": "npx ts-node ./node_modules/typeorm/cli.js migration:run"
   },
@@ -14,13 +14,18 @@
     "@types/cookie-parser": "^1.4.1",
     "@types/errorhandler": "0.0.32",
     "@types/http-errors": "^1.6.1",
+    "@types/jest": "^23.3.5",
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.11.4",
     "errorhandler": "^1.5.0",
     "husky": "^1.1.1",
+    "jest": "^23.6.0",
     "nodemon": "^1.18.4",
     "prettier": "1.14.3",
     "pretty-quick": "^1.7.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   },
@@ -41,6 +46,7 @@
     "pug": "^2.0.3",
     "reflect-metadata": "^0.1.12",
     "tracer": "^0.9.1",
-    "typeorm": "^0.2.7"
+    "typeorm": "^0.2.7",
+    "uuid": "^3.3.2"
   }
 }
