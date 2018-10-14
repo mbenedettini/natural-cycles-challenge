@@ -1,4 +1,5 @@
 const request = require('request-promise')
+const uuid = require('uuid/v4')
 
 import log from '../logger'
 import { loadUser } from './fixtures'
@@ -65,4 +66,27 @@ test('Create user', async () => {
   const userData = userResponse.data
   expect(userData.email).toBe('example@example.com')
   expect(isValidUUID(userData.id)).toBe(true)
+})
+
+test('Retrieve user', async () => {
+  const user = await loadUser()
+  const res = await request({
+    uri: getBaseURL() + '/users/' + user.id,
+    json: true,
+  })
+  const userData = res.data
+  expect(userData.email).toBe(user.email)
+  expect(userData.id).toBe(user.id)
+
+  let error
+  try {
+    await request({
+      uri: getBaseURL() + '/users/' + uuid(),
+      json: true,
+    })
+  } catch (e) {
+    error = e
+  }
+  expect(error.statusCode).toBe(404)
+  expect(error.error.error).toBe('User not found')
 })

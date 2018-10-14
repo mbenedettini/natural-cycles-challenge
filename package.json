@@ -46,6 +46,7 @@
     "pug": "^2.0.3",
     "reflect-metadata": "^0.1.12",
     "tracer": "^0.9.1",
-    "typeorm": "^0.2.7"
+    "typeorm": "^0.2.7",
+    "uuid": "^3.3.2"
   }
 }
