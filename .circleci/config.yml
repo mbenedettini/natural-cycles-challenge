@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Build frontend
           command: |
-            cd client && npm i -g @angular/cli npm ci && npm run build
+            cd client && sudo npm i -g @angular/cli && npm ci && npm run build
       - run:
           name: Build image
           command: |
