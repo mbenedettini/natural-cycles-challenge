@@ -29,6 +29,8 @@ jobs:
 
   test:
     working_directory: ~/natural-cycles-challenge
+    attach_workspace:
+      at: ~/natural-cycles-challenge
     docker:
       - image: circleci/node:10.12-jessie
     steps:
