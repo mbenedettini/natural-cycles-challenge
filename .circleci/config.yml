@@ -25,7 +25,9 @@ jobs:
             docker push marianobe/nc:latest
       - persist_to_workspace:
           root: .
-          paths: docker-compose.circleci.yml
+          paths:
+            - docker-compose.circleci.yml
+            - .env
 
   test:
     working_directory: ~/natural-cycles-challenge
