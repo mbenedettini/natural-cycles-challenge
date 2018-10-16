@@ -11,6 +11,7 @@ jobs:
           name: Build frontend
           command: |
             cd client && sudo npm i -g @angular/cli && npm ci && npm run build
+      - setup_remote_docker
       - run:
           name: Build image
           command: |
