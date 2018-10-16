@@ -28,6 +28,7 @@ jobs:
           paths: docker-compose.circleci.yml
 
   test:
+    working_directory: ~/natural-cycles-challenge
     docker:
       - image: circleci/node:10.12-jessie
     steps:
