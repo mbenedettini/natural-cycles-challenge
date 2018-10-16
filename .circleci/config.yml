@@ -25,6 +25,8 @@ jobs:
             docker push marianobe/nc:latest
 
   test:
+    docker:
+      - image: circleci/node:10.12-jessie
     steps:
       - setup_remote_docker
       - run:
