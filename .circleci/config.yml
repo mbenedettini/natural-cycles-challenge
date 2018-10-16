@@ -23,6 +23,9 @@ jobs:
             docker tag nc:$CIRCLE_SHA1 marianobe/nc:latest
             docker push marianobe/nc:$CIRCLE_SHA1
             docker push marianobe/nc:latest
+      - persist_to_workspace:
+          root: .
+          paths: docker-compose.circleci.yml
 
   test:
     docker:
