@@ -49,6 +49,8 @@ workflows:
               only:
                 - circleci
       - test:
+          requires:
+            - build
           filters:
             branches:
               only:
