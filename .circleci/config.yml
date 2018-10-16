@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Build image
           command: |
-            docker build --cache-from marianobe/nc,node:10.12-jessie -f Dockerfile -t nc:$CIRCLE_SHA1 .
+            docker build --cache-from marianobe/nc,marianobe/node-base -f Dockerfile -t nc:$CIRCLE_SHA1 .
             docker tag nc:$CIRCLE_SHA1 marianobe/nc:$CIRCLE_SHA1
             docker tag nc:$CIRCLE_SHA1 marianobe/nc:latest
             docker push marianobe/nc:$CIRCLE_SHA1
