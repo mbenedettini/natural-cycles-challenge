@@ -43,7 +43,7 @@ jobs:
           command: |
             docker-compose -f docker-compose.circleci.yml up -d
             sleep 15
-            docker-compose -f docker-compose.circleci.yml exec server bash -c "node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand --coverage --coverageDirectory=/tmp/coverage && cat /tmp/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
+            docker-compose -f docker-compose.circleci.yml exec server /bin/ash -c "node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand --coverage --coverageDirectory=/tmp/coverage && cat /tmp/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
       - run:
           name: get_test_results_from_container
           when: always
