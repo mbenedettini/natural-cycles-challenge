@@ -10,9 +10,12 @@ RUN cd /usr/src/app && npm ci && npm prune --production
 COPY client/package.json /usr/src/app/client
 COPY client/package-lock.json /usr/src/app/client
 WORKDIR /usr/src/app/client
-RUN sudo npm i -g @angular/cli && npm ci
+RUN npm i -g @angular/cli && npm ci
 
-COPY . /usr/src/app
+COPY ./src /usr/src/app
+COPY ./client /usr/src/app/client
+COPY jest.config.js /usr/src/app
+COPY tsconfig.json /usr/src/app
 
 WORKDIR /usr/src/app/client
 RUN npm run build && rm -rf node_modules
