@@ -45,6 +45,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            docker-compose -f docker-compose.circleci.yml up -d
             docker-compose -f docker-compose.circleci.yml run server node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand
       - run:
           name: get_test_results_from_container
