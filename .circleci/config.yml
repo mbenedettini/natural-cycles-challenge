@@ -72,9 +72,6 @@ jobs:
           name: Now deploy
           command: |
             sudo npm i -g --unsafe-perm now
-            now -t $NOW_TOKEN secret add db-database $DB_DATABASE
-            now -t $NOW_TOKEN secret add db-user $DB_USER
-            now -t $NOW_TOKEN secret add db-password $DB_PASSWORD
             now --public -t $NOW_TOKEN && now -t $NOW_TOKEN alias nc-mariano
 
 workflows:
