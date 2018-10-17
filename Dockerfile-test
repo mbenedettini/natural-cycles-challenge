@@ -1,0 +1,15 @@
+FROM node:10-alpine
+EXPOSE 3000
+RUN npm config set unsafe-perm true
+
+RUN mkdir -p /usr/src/app/client
+COPY package.json /usr/src/app
+COPY package-lock.json /usr/src/app
+RUN cd /usr/src/app && npm ci
+
+COPY src /usr/src/app/src
+COPY jest.config.js /usr/src/app
+COPY tsconfig.json /usr/src/app
+
+WORKDIR /usr/src/app
+CMD npm start
