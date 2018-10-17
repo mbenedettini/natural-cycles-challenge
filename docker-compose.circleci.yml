@@ -6,6 +6,8 @@ services:
     user: '1000:1000'
     env_file:
       - .env
+    environment:
+      JEST_JUNIT_OUTPUT: '/tmp/js-test-results.xml'
     command: npm start
     ports:
       - '3000:3000'

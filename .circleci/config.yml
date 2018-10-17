@@ -46,8 +46,6 @@ jobs:
           name: Run tests
           command: |
             docker-compose -f docker-compose.circleci.yml run server node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand
-          environment:
-            JEST_JUNIT_OUTPUT: '/tmp/js-test-results.xml'
       - run:
           name: get_test_results_from_container
           when: always
