@@ -5,4 +5,5 @@ module.exports = {
   rootDir: '/usr/src/app/src',
   collectCoverage: true,
   collectCoverageFrom: ['routes/users.ts'],
+  reporters: ['default', 'jest-junit'],
 }

@@ -2,13 +2,15 @@ version: '3'
 
 services:
   server:
-    build: .
-    user: '1000:1000'
+    image: 'marianobe/nc:${CIRCLE_SHA1}'
+    container_name: server
     env_file:
       - .env
+    environment:
+      JEST_JUNIT_OUTPUT: '/tmp/js-test-results.xml'
+      COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
+      COVERALLS_SERVICE_NAME: ${COVERALLS_SERVICE_NAME}
     command: npm start
-    volumes:
-      - .:/usr/src/app
     ports:
       - '3000:3000'
     depends_on:

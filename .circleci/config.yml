@@ -1,0 +1,78 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/natural-cycles-challenge
+    docker:
+      - image: circleci/node:10.12-jessie
+    steps:
+      - checkout
+      - run:
+          name: Build frontend
+          command: |
+            cd client && sudo npm i -g @angular/cli && npm ci && npm run build
+      - setup_remote_docker
+      - run:
+          name: Build image
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker pull marianobe/nc
+            docker pull marianobe/node-base
+            docker build --cache-from marianobe/nc,marianobe/node-base -f Dockerfile -t nc:$CIRCLE_SHA1 .
+            docker tag nc:$CIRCLE_SHA1 marianobe/nc:$CIRCLE_SHA1
+            docker tag nc:$CIRCLE_SHA1 marianobe/nc:latest
+            docker push marianobe/nc:$CIRCLE_SHA1
+            docker push marianobe/nc:latest
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docker-compose.circleci.yml
+            - .env
+
+  test:
+    working_directory: ~/natural-cycles-challenge
+    docker:
+      - image: circleci/node:10.12-jessie
+    steps:
+      - attach_workspace:
+          at: ~/natural-cycles-challenge
+      - setup_remote_docker
+      - run:
+          name: Pull images
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker pull marianobe/nc:$CIRCLE_SHA1
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f docker-compose.circleci.yml up -d
+            sleep 15
+            docker-compose -f docker-compose.circleci.yml exec server bash -c "node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand --coverage --coverageDirectory=/tmp/coverage && cat /tmp/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
+      - run:
+          name: get_test_results_from_container
+          when: always
+          command: |
+            mkdir ~/test_results
+            docker cp "$(docker ps --filter="name=server" -q)":/tmp/js-test-results.xml ~/test_results/js-test-results.xml
+            docker cp "$(docker ps --filter="name=server" -q)":/tmp/coverage ~/test_results/coverage
+      - store_test_results:
+          path: ~/test_results
+      - store_artifacts:
+          path: ~/test_results
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - circleci
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - circleci
