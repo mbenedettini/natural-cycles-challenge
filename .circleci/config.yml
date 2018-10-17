@@ -63,6 +63,8 @@ jobs:
 
   deploy:
     working_directory: ~/natural-cycles-challenge
+    docker:
+      - image: circleci/node:10.12-jessie
     steps:
       - attach_workspace:
           at: ~/natural-cycles-challenge
