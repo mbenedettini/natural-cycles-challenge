@@ -1,0 +1,15 @@
+{
+  "type": "docker",
+  "env": {
+    "NODE_ENV": "production",
+    "TYPEORM_CONNECTION": "postgres",
+    "TYPEORM_HOST": "pellefant.db.elephantsql.com",
+    "TYPEORM_USERNAME": "@db-user",
+    "TYPEORM_PASSWORD": "@db-password",
+    "TYPEORM_DATABASE": "@db-database",
+    "TYPEORM_MIGRATIONS_DIR": "src/migrations",
+    "TYPEORM_MIGRATIONS": "build/migration/*.js",
+    "TYPEORM_AUTO_SCHEMA_SYNC": "false",
+    "TYPEORM_ENTITIES": "build/entity/**/*.js"
+  }
+}

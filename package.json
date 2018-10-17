@@ -7,7 +7,7 @@
     "test": "node_modules/.bin/jest",
     "start-dev": "npm install && npm run migration:run && nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "start-test": "sleep 10 && npm run migration:run && ts-node src/index.ts",
-    "start": "./node_modules/typeorm/cli.js migration:run && ./build/index.js",
+    "start": "node ./node_modules/typeorm/cli.js migration:run && node ./build/index.js",
     "migration:run": "npx ts-node ./node_modules/typeorm/cli.js migration:run",
     "migration:revert": "npx ts-node ./node_modules/typeorm/cli.js migration:revert"
   },

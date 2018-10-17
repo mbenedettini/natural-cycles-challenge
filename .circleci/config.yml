@@ -24,6 +24,11 @@ jobs:
           paths:
             - docker-compose.circleci.yml
             - .env
+            - now.json
+            - Dockerfile
+            - build
+            - src
+            - client
 
   test:
     working_directory: ~/natural-cycles-challenge
@@ -45,7 +50,7 @@ jobs:
             sleep 15
             docker-compose -f docker-compose.circleci.yml exec server /bin/ash -c "node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand --coverage --coverageDirectory=/tmp/coverage && cat /tmp/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
       - run:
-          name: get_test_results_from_container
+          name: Get test results
           when: always
           command: |
             mkdir ~/test_results
@@ -55,6 +60,17 @@ jobs:
           path: ~/test_results
       - store_artifacts:
           path: ~/test_results
+
+  deploy:
+    working_directory: ~/natural-cycles-challenge
+    steps:
+      - attach_workspace:
+          at: ~/natural-cycles-challenge
+      - run:
+          name: Install now
+          command: |
+            npm i -g now
+            now --public -t $NOW_TOKEN && now -t $NOW_TOKEN alias nc-mariano
 
 workflows:
   version: 2
@@ -68,6 +84,13 @@ workflows:
       - test:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
+          requires:
+            - test
           filters:
             branches:
               only:
