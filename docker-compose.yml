@@ -21,6 +21,8 @@ services:
       - .env
     ports:
       - '5432:5432'
+    #volumes:
+    #  - postgres-data:/var/lib/postgresql/data
 
   testdb:
     image: postgres:9.6
@@ -30,3 +32,7 @@ services:
       POSTGRES_USER: 'test'
       POSTGRES_PASSWORD: 'test'
       POSTGRES_DB: 'test'
+
+# volumes:
+#   postgres-data:
+#     driver: "local"
