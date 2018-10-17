@@ -33,6 +33,7 @@ An improvement off the top of my head is that I could have used just a simple Do
 New things that I have learned while working on this challenge:
   + [TypeORM](https://github.com/typeorm/typeorm): I was already familiar with Sequelize but since it does not have first-class Typescript support I've decided to try something new
   + Now.sh: I'd heard of it but never tried it before. Took me some time to take the image below 100mb.
+  + Jest: I was already familiar with Mocha but just wanted to try it out
   
 Tests are testing the users router. An improvement could be separate the rest api from the logic handling requests, ending up with a controller decoupled from the web api. This controller would receive, for example when creating a user, just the email address and return the recently created user. This would allow the app to be more testable or at least testable in a more fine-grained level (the way to unit testing).
 
