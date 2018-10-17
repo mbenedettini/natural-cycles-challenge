@@ -13,8 +13,8 @@ jobs:
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker pull marianobe/nc
-            docker pull marianobe/node-base
-            docker build --cache-from marianobe/nc,marianobe/node-base -f Dockerfile -t nc:$CIRCLE_SHA1 .
+            docker pull node:10-alpine
+            docker build --cache-from marianobe/nc,node:10-alpine -f Dockerfile -t nc:$CIRCLE_SHA1 .
             docker tag nc:$CIRCLE_SHA1 marianobe/nc:$CIRCLE_SHA1
             docker tag nc:$CIRCLE_SHA1 marianobe/nc:latest
             docker push marianobe/nc:$CIRCLE_SHA1
