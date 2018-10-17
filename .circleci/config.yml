@@ -68,11 +68,11 @@ workflows:
           filters:
             branches:
               only:
-                - circleci
+                - master
       - test:
           requires:
             - build
           filters:
             branches:
               only:
-                - circleci
+                - master
