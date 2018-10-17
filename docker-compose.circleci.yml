@@ -10,7 +10,7 @@ services:
       JEST_JUNIT_OUTPUT: '/tmp/js-test-results.xml'
       COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
       COVERALLS_SERVICE_NAME: ${COVERALLS_SERVICE_NAME}
-    command: npm start
+    command: npm run start-test
     ports:
       - '3000:3000'
     depends_on:
