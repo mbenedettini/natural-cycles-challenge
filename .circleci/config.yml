@@ -47,13 +47,14 @@ jobs:
           command: |
             docker-compose -f docker-compose.circleci.yml up -d
             sleep 15
-            docker-compose -f docker-compose.circleci.yml exec server node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand
+            docker-compose -f docker-compose.circleci.yml exec server node_modules/.bin/jest --ci --reporters=default --reporters=jest-junit --runInBand --coverage --coverageDirectory=/tmp/coverage
       - run:
           name: get_test_results_from_container
           when: always
           command: |
             mkdir ~/test_results
             docker cp "$(docker ps --filter="name=server" -q)":/tmp/js-test-results.xml ~/test_results/js-test-results.xml
+            docker cp "$(docker ps --filter="name=server" -q)":/tmp/coverage ~/test_results/coverage
       - store_test_results:
           path: ~/test_results
       - store_artifacts:
