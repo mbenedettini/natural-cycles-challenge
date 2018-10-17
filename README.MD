@@ -44,7 +44,7 @@ Tests are testing the users router. An improvement could be separate the rest ap
 Existing migrations are automatically run at startup, but just in case:
 
 + Creating migrations
-`docker-compose exec server typeorm migration:create -n create-users`
+`docker-compose exec server npx typeorm migration:create -n create-users`
 
 + Manually running migrations
 `docker-compose exec server npm run migration:run`
