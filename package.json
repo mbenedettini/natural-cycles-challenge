@@ -21,6 +21,7 @@
     "errorhandler": "^1.5.0",
     "husky": "^1.1.1",
     "jest": "^23.6.0",
+    "jest-junit": "^5.2.0",
     "nodemon": "^1.18.4",
     "prettier": "1.14.3",
     "pretty-quick": "^1.7.0",
