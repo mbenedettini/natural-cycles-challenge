@@ -24,11 +24,12 @@ jobs:
           paths:
             - docker-compose.circleci.yml
             - .env
-            - now.json
             - Dockerfile
             - build
             - src
             - client
+            - *.json
+            - jest.config.js
 
   test:
     working_directory: ~/natural-cycles-challenge
