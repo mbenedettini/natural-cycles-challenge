@@ -3,7 +3,7 @@ version: '3'
 services:
   server:
     image: 'marianobe/nc:${CIRCLE_SHA1}'
-    user: '1000:1000'
+    container_name: server
     env_file:
       - .env
     environment:
