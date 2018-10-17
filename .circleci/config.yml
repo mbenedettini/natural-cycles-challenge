@@ -28,7 +28,7 @@ jobs:
             - build
             - src
             - client
-            - *.json
+            - '*.json'
             - jest.config.js
 
   test:
