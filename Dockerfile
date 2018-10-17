@@ -21,8 +21,6 @@ WORKDIR /usr/src/app/client
 RUN npm i -g @angular/cli && npm ci
 COPY client /usr/src/app/client
 RUN npm run build
-WORKDIR /usr/src/app
-COPY src/public build/public
 
 # Optimize image size
 RUN rm -rf /usr/src/app/client
